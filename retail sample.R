@@ -86,33 +86,3 @@ auc(roc(rt_train2$store,test.rf))
 
 test.rf= predict(rf,newdata = rt_test,type="class") 
 write.csv(test.rf,"Samita_Gawas_P2_part2.csv",row.names = F)
-
-##########################################DTree#########################################
-
-library(tree)
-
-rt_train1$store=as.factor(rt_train1$store)
-single.tree=tree(store~.,data=rt_train1)
-
-
-cv.single.tree=cv.tree(single.tree,FUN=prune.misclass)
-
-plot(cv.single.tree$size,cv.single.tree$dev,type='b')
-
-pruned.tree=prune.misclass(single.tree,best=5)
-
-plot(pruned.tree)
-text(pruned.tree,pretty = 0)
-
-target.tree=predict(pruned.tree,newdata=rt_train2,type="class")
-
-library(pROC)
-auc(roc(rt_train2$store,target.tree))
-
-
-
-
-
-
-
-
